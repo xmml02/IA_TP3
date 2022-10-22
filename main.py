@@ -1,5 +1,15 @@
 import numpy as npy
 
+"""
+TRABAJO PRÁCTICO 3
+ 
+Integrantes:
+Perez Martin, Santiago (VINF010750)
+Manzanares, Johana (VINF01938)
+Llensa, Santiago (VINF09201)
+Lobo, Carlos Ignacio (VINF010689)
+Mariano, Martin Lorenzo (VINF09714) 
+"""
 
 def __PrintMatriz(lstIn: list):
     """
@@ -57,13 +67,13 @@ def CargarFaseAlmHebb(lstIn: list, intFase: int):
     -------
 
     '''
-    print(">>> Carga FASE Nro. " + str(intFase))
+    print(">>>>>> Patron nro. " + str(intFase))
     __PrintMatriz(lstIn)
     matrizImagen = npy.array(lstImagen, dtype=int)
     vectorPatron = npy.array(__GenerarVector(matrizImagen), dtype=int)
     matrizProduct = npy.dot(vectorPatron.T, vectorPatron)  # Producto
 
-    return matrizProduct - npy.identity(25, dtype=int)
+    return matrizProduct - npy.identity(100, dtype=int)
 
 
 def CargarFaseAlmPseudoInv(lstIn: list, intFase: int):
@@ -137,7 +147,7 @@ def FaseRecuperacion(W: npy.array, vectorIn: npy.array, vectorOut: npy.array, in
     vectorOut = __FuncionActivacion(vectorOut)
 
     print(">>>>>> Fase Recuperacion Nro." + str(intento))
-    __GenerarMatriz(vectorOut, 5)
+    __GenerarMatriz(vectorOut, 10)
 
 
     if (vectorIn == vectorOut).all():
@@ -147,37 +157,41 @@ def FaseRecuperacion(W: npy.array, vectorIn: npy.array, vectorOut: npy.array, in
         vectorOut = FaseRecuperacion(W, vectorOut, 0, intento)
 
 
-# ENTRENAMIENTO
-lstImagen = [[1, -1, -1, -1, -1],
-[1, -1, -1, -1, -1],
-[1, -1, -1, -1, -1],
-[1, -1, -1, -1, -1],
-[1, 1, 1, 1, 1]]
+# ENTRENAMIENTO - Metodo Hebb
+
+print(">>> FASE ENTRENAMIENTO - METODO HOPFIELD-HEBB")
+# w1 = Matriz de pesos - 1er. Patron
+lstImagen = [[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+[-1, -1, -1, -1, -1, -1, 1, -1, -1, -1],
+[-1, -1, -1, -1, -1, 1, 1, 1, -1, -1],
+[-1, -1, -1, -1, 1, 1, -1, 1, 1, -1],
+[-1, -1, -1, 1, 1, -1, -1, -1, 1, 1],
+[-1, -1, -1, -1, 1, 1, -1, 1, 1, -1],
+[-1, -1, -1, -1, -1, 1, 1, 1, -1, -1],
+[-1, 1, -1, -1, -1, -1, 1, -1, -1, -1],
+[-1, 1, 1, -1, -1, -1, -1, -1, -1, -1],
+[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+]
 w1 = CargarFaseAlmHebb(lstImagen, 1)
 
-lstImagen = [[1, 1, 1, 1, 1],
-[1, -1, -1, -1, 1],
-[1, -1, -1, -1, 1],
-[1, -1, -1, -1, 1],
-[1, 1, 1, 1, 1]]
-w2 = CargarFaseAlmHebb(lstImagen, 2)
+# W = Almacenamiento(sumatoria de matrices de pesos de patrones)
+W = w1
 
-lstImagen = [[1, -1, -1, -1, 1],
-[-1, 1, -1, 1, -1],
-[-1, -1, 1, -1, -1],
-[-1, 1, -1, 1, -1],
-[1, -1, -1, -1, 1]]
-w3 = CargarFaseAlmHebb(lstImagen, 3)
+# VERIFICACION - Reconocimiento de patrones
 
-W = w1 + w2 + w3
-
-# VERIFICACION
-lstPrueba = [[1, 1, -1, -1, 1],
-[1, 1, -1, 1, 1],
-[1, -1, 1, -1, -1],
-[1, 1, -1, 1, -1],
-[1, 1, 1, 1, 1]
+lstPrueba = [[1, -1, -1, 1, -1, -1, -1, -1, -1, -1],
+[-1, 1, -1, 1, -1, -1, 1, -1, 1, 1],
+[1, -1, -1, -1, -1, 1, 1, -1, -1, 1],
+[-1, 1, -1, -1, -1, 1, -1, -1, 1, -1],
+[-1, -1, -1, 1, -1, -1, -1, -1, 1, -1],
+[-1, -1, -1, -1, 1, 1, -1, 1, 1, -1],
+[-1, -1, -1, -1, -1, -1, 1, -1, -1, -1],
+[1, 1, -1, -1, -1, -1, 1, -1, -1, -1],
+[-1, 1, 1, 1, 1, -1, -1, -1, 1, -1],
+[-1, -1, -1, -1, -1, -1, -1, -1, -1, 1]
 ]
+print(">>> FASE RECONOCIMIENTO ")
+print(">>>>>> Imagen con ruido")
 __PrintMatriz(lstPrueba)
 
 matrizImagen = npy.array(lstPrueba, dtype=int)
