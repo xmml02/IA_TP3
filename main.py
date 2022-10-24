@@ -99,7 +99,7 @@ def CargarFaseAlmPseudoInv(lstIn: list, intFase: int):
 
 def FaseRecuperacion(W: npy.array, vectorIn: npy.array, vectorOut: npy.array, intento: int):
     """
-    Funcion recurrente para busqueda coincidencia
+    Función recursiva para busqueda coincidencia
     Parameters
     ----------
     W = Matriz pesos
